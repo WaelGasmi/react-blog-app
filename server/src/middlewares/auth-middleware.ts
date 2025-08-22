@@ -1,25 +1,22 @@
 import { NextFunction, Request, Response } from "express"
 import { AppError } from "../utils/AppError.js"
 import { verifyToken } from "../utils/jwt-helpers.js"
-import { JwtPayload } from "jsonwebtoken"
-
-export interface AuthRequest extends Request {
-  user?: JwtPayload | string
-}
 
 export const authMiddleware = async (
-  req: AuthRequest,
+  req: Request,
   _res: Response,
   next: NextFunction
 ) => {
   const authHeader = req.headers.authorization
-  if (!authHeader) throw new AppError("no token provided", 401)
+  if (!authHeader) throw new AppError("access denied", 401)
 
   const [bearer, token] = authHeader.split(" ")
-  if (bearer !== "Bearer" || !token)
-    throw new AppError("invalid token format", 401)
+  if (bearer !== "Bearer" || !token) throw new AppError("invalid token", 401)
 
-  req.user = await verifyToken(token)
+  const decoded = await verifyToken(token)
+  if (typeof decoded !== "object" || !decoded?.userId)
+    throw new AppError("invalid token", 401)
+  req.userId = decoded.userId
 
   next()
 }

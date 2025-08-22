@@ -4,7 +4,6 @@ import { RegisterInput } from "./types.js"
 
 export const validateUser = async (email: string) => {
   const user = await prisma.user.findUnique({ where: { email } })
-
   return { user }
 }
 
@@ -23,12 +22,10 @@ export const createUser = async (
       password: hashedPassword,
     },
   })
-
   return { user: newUser }
 }
 
 export const getUser = async (id: string) => {
   const user = await prisma.user.findUnique({ where: { id } })
-
   return { user }
 }

@@ -4,7 +4,7 @@ import { generateToken } from "../utils/jwt-helpers.js"
 import { LoginInput, RegisterInput } from "../utils/types.js"
 import { createUser, getUser, validateUser } from "../utils/user-helpers.js"
 
-export const loginService = async ({ email, password }: LoginInput) => {
+export const login = async ({ email, password }: LoginInput) => {
   if (!email || !password) throw new AppError("Wrong Credentials", 401)
 
   const { user } = await validateUser(email)
@@ -19,7 +19,7 @@ export const loginService = async ({ email, password }: LoginInput) => {
   return { user: safeUser, token }
 }
 
-export const registerService = async ({
+export const register = async ({
   firstName,
   lastName,
   email,
@@ -33,12 +33,12 @@ export const registerService = async ({
 
   const { user } = await createUser(firstName, lastName, email, password)
   const { password: _, ...safeUser } = user
-  const { token } = await generateToken(user.id)
+  const token = await generateToken(user.id)
 
   return { user: safeUser, token }
 }
 
-export const getCurrentUserService = async (id: string) => {
+export const getCurrentUser = async (id: string) => {
   const { user } = await getUser(id)
   if (!user) throw new AppError("user not found", 401)
   const { password: _, ...safeUser } = user

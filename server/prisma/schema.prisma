@@ -20,4 +20,26 @@ model User {
   lastName  String
   email     String @unique
   password  String
+
+  Post    Post[]
+  Comment Comment[]
+}
+
+model Post {
+  id     String @id @default(cuid())
+  title  String
+  userId String
+
+  user    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Comment Comment[]
+}
+
+model Comment {
+  id      String @id @default(cuid())
+  content String
+  userId  String
+  postId  String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Post Post @relation(fields: [postId], references: [id])
 }

@@ -5,11 +5,11 @@ import { authMiddleware } from "../middlewares/auth-middleware.js"
 
 const AuthRouter = Router()
 
-AuthRouter.post("/login", asyncHandler(controllers.loginController))
-AuthRouter.post("/register", asyncHandler(controllers.registerController))
+AuthRouter.post("/login", asyncHandler(controllers.login))
+AuthRouter.post("/register", asyncHandler(controllers.register))
 
 AuthRouter.use(asyncHandler(authMiddleware))
-AuthRouter.post("/logout", asyncHandler(controllers.logoutController))
-AuthRouter.get("/me", asyncHandler(controllers.getCurrentUserController))
+AuthRouter.post("/logout", asyncHandler(controllers.logout))
+AuthRouter.get("/me", asyncHandler(controllers.getCurrentUser))
 
 export default AuthRouter

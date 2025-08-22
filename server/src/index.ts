@@ -1,11 +1,8 @@
-import app from "./app.js"
 import { PORT } from "./config/index.js"
+import { server } from "./socket.js"
 
 console.clear()
 
-app.listen(PORT, (err) => {
-  if (err) {
-    console.log("server not running")
-  }
+server.listen(PORT, () => {
   console.log(`Server running at ${PORT}`)
 })

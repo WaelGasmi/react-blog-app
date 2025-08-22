@@ -3,8 +3,6 @@ import * as services from "../services/auth-service.js"
 import { sendSuccess } from "../middlewares/response-handler.js"
 import { SafeUser } from "../utils/types.js"
 import { AppError } from "../utils/AppError.js"
-import { AuthRequest } from "../middlewares/auth-middleware.js"
-import { JwtPayload } from "jsonwebtoken"
 
 const cookiesOptions: CookieOptions = {
   sameSite: true,
@@ -13,29 +11,26 @@ const cookiesOptions: CookieOptions = {
   httpOnly: true,
 }
 
-export const loginController = async (req: Request, res: Response) => {
-  const { user, token } = await services.loginService(req.body)
+export const login = async (req: Request, res: Response) => {
+  const { user, token } = await services.login(req.body)
   res.cookie("token", { token }, cookiesOptions)
-  sendSuccess<any>(res, { user, token: { token } })
+  sendSuccess<any>(res, { user, token })
 }
 
-export const registerController = async (req: Request, res: Response) => {
-  const { user, token } = await services.registerService(req.body)
+export const register = async (req: Request, res: Response) => {
+  const { user, token } = await services.register(req.body)
   res.cookie("token", token, cookiesOptions)
   sendSuccess<SafeUser>(res, user)
 }
 
-export const logoutController = async (req: Request, res: Response) => {
+export const logout = async (_req: Request, res: Response) => {
   res.clearCookie("token")
   sendSuccess<SafeUser>(res)
 }
 
-export const getCurrentUserController = async (
-  req: AuthRequest,
-  res: Response
-) => {
-  if (!req.user) throw new AppError("user not authenticated", 401)
-  const userId = (req.user as JwtPayload).id
-  const { user } = await services.getCurrentUserService(userId)
+export const getCurrentUser = async (req: Request, res: Response) => {
+  if (!req.userId) throw new AppError("user not authenticated", 401)
+  const userId = req.userId
+  const { user } = await services.getCurrentUser(userId)
   sendSuccess<SafeUser>(res, user)
 }
