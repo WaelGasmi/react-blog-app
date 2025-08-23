@@ -2,7 +2,7 @@ import { prisma } from "../prisma/prismaClient.js"
 import { Post } from "../utils/types.js"
 
 export const getAllPosts = async () => {
-  const posts = await prisma.post.findMany()
+  const posts = await prisma.post.findMany({ include: { Comment: true } })
   return posts
 }
 
@@ -17,25 +17,27 @@ export const getPostsByUser = async (userId: string) => {
 }
 
 export const addPost = async (post: Post) => {
-  await prisma.post.create({
+  const newPost = await prisma.post.create({
     data: {
       title: post.title,
       userId: post.userId,
     },
   })
+  return newPost
 }
 
-export const updatePost = async (updatedPost: Post) => {
-  const { id, ...post } = updatedPost
-  await prisma.post.update({
-    where: { id },
+export const updatePost = async (post: Post) => {
+  const updatedPost = await prisma.post.update({
+    where: { id: post.id },
     data: {
       title: post.title,
       userId: post.userId,
     },
   })
+  return updatedPost
 }
 
 export const deletePost = async (postId: string) => {
-  await prisma.post.delete({ where: { id: postId } })
+  const deletedPost = await prisma.post.delete({ where: { id: postId } })
+  return deletedPost
 }

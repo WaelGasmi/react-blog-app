@@ -3425,7 +3425,7 @@ export namespace Prisma {
     userId?: boolean
     postId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    Post?: boolean | Comment$PostArgs<ExtArgs>
+    Post?: boolean | PostDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["comment"]>
 
   export type CommentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3434,7 +3434,7 @@ export namespace Prisma {
     userId?: boolean
     postId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    Post?: boolean | Comment$PostArgs<ExtArgs>
+    Post?: boolean | PostDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["comment"]>
 
   export type CommentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3443,7 +3443,7 @@ export namespace Prisma {
     userId?: boolean
     postId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    Post?: boolean | Comment$PostArgs<ExtArgs>
+    Post?: boolean | PostDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["comment"]>
 
   export type CommentSelectScalar = {
@@ -3456,22 +3456,22 @@ export namespace Prisma {
   export type CommentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "userId" | "postId", ExtArgs["result"]["comment"]>
   export type CommentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    Post?: boolean | Comment$PostArgs<ExtArgs>
+    Post?: boolean | PostDefaultArgs<ExtArgs>
   }
   export type CommentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    Post?: boolean | Comment$PostArgs<ExtArgs>
+    Post?: boolean | PostDefaultArgs<ExtArgs>
   }
   export type CommentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    Post?: boolean | Comment$PostArgs<ExtArgs>
+    Post?: boolean | PostDefaultArgs<ExtArgs>
   }
 
   export type $CommentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Comment"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
-      Post: Prisma.$PostPayload<ExtArgs> | null
+      Post: Prisma.$PostPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3873,7 +3873,7 @@ export namespace Prisma {
   export interface Prisma__CommentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    Post<T extends Comment$PostArgs<ExtArgs> = {}>(args?: Subset<T, Comment$PostArgs<ExtArgs>>): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    Post<T extends PostDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PostDefaultArgs<ExtArgs>>): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4303,25 +4303,6 @@ export namespace Prisma {
   }
 
   /**
-   * Comment.Post
-   */
-  export type Comment$PostArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Post
-     */
-    select?: PostSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Post
-     */
-    omit?: PostOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PostInclude<ExtArgs> | null
-    where?: PostWhereInput
-  }
-
-  /**
    * Comment without action
    */
   export type CommentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4551,7 +4532,7 @@ export namespace Prisma {
     userId?: StringFilter<"Comment"> | string
     postId?: StringFilter<"Comment"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    Post?: XOR<PostNullableScalarRelationFilter, PostWhereInput> | null
+    Post?: XOR<PostScalarRelationFilter, PostWhereInput>
   }
 
   export type CommentOrderByWithRelationInput = {
@@ -4572,7 +4553,7 @@ export namespace Prisma {
     userId?: StringFilter<"Comment"> | string
     postId?: StringFilter<"Comment"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    Post?: XOR<PostNullableScalarRelationFilter, PostWhereInput> | null
+    Post?: XOR<PostScalarRelationFilter, PostWhereInput>
   }, "id">
 
   export type CommentOrderByWithAggregationInput = {
@@ -4708,7 +4689,7 @@ export namespace Prisma {
     id?: string
     content: string
     user: UserCreateNestedOneWithoutCommentInput
-    Post?: PostCreateNestedOneWithoutCommentInput
+    Post: PostCreateNestedOneWithoutCommentInput
   }
 
   export type CommentUncheckedCreateInput = {
@@ -4722,7 +4703,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutCommentNestedInput
-    Post?: PostUpdateOneWithoutCommentNestedInput
+    Post?: PostUpdateOneRequiredWithoutCommentNestedInput
   }
 
   export type CommentUncheckedUpdateInput = {
@@ -4851,9 +4832,9 @@ export namespace Prisma {
     userId?: SortOrder
   }
 
-  export type PostNullableScalarRelationFilter = {
-    is?: PostWhereInput | null
-    isNot?: PostWhereInput | null
+  export type PostScalarRelationFilter = {
+    is?: PostWhereInput
+    isNot?: PostWhereInput
   }
 
   export type CommentCountOrderByAggregateInput = {
@@ -5041,12 +5022,10 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCommentInput, UserUpdateWithoutCommentInput>, UserUncheckedUpdateWithoutCommentInput>
   }
 
-  export type PostUpdateOneWithoutCommentNestedInput = {
+  export type PostUpdateOneRequiredWithoutCommentNestedInput = {
     create?: XOR<PostCreateWithoutCommentInput, PostUncheckedCreateWithoutCommentInput>
     connectOrCreate?: PostCreateOrConnectWithoutCommentInput
     upsert?: PostUpsertWithoutCommentInput
-    disconnect?: PostWhereInput | boolean
-    delete?: PostWhereInput | boolean
     connect?: PostWhereUniqueInput
     update?: XOR<XOR<PostUpdateToOneWithWhereWithoutCommentInput, PostUpdateWithoutCommentInput>, PostUncheckedUpdateWithoutCommentInput>
   }
@@ -5118,7 +5097,7 @@ export namespace Prisma {
   export type CommentCreateWithoutUserInput = {
     id?: string
     content: string
-    Post?: PostCreateNestedOneWithoutCommentInput
+    Post: PostCreateNestedOneWithoutCommentInput
   }
 
   export type CommentUncheckedCreateWithoutUserInput = {
@@ -5401,7 +5380,7 @@ export namespace Prisma {
   export type CommentUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
-    Post?: PostUpdateOneWithoutCommentNestedInput
+    Post?: PostUpdateOneRequiredWithoutCommentNestedInput
   }
 
   export type CommentUncheckedUpdateWithoutUserInput = {

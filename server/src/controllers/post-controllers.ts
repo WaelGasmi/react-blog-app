@@ -19,16 +19,16 @@ export const getPostsByUser = async (req: Request, res: Response) => {
 }
 
 export const addPost = async (req: Request, res: Response) => {
-  await services.addPost(req.body)
-  return sendSuccess<any>(res)
+  const post = await services.addPost(req.body)
+  return sendSuccess<Post>(res, post)
 }
 
 export const updatePost = async (req: Request, res: Response) => {
-  await services.updatePost(req.body)
-  return sendSuccess<any>(res)
+  const updatedPost = await services.updatePost(req.body)
+  return sendSuccess<Post>(res, updatedPost)
 }
 
 export const deletePost = async (req: Request, res: Response) => {
-  await services.deletePost(req.body)
-  return sendSuccess<any>(res)
+  const deletedPost = await services.deletePost(req.body)
+  return sendSuccess<Post>(res, deletedPost)
 }

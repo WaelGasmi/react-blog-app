@@ -7,26 +7,31 @@ export const getCommentsByPost = async (userId: string) => {
 }
 
 export const addComment = async (comment: Comment) => {
-  await prisma.comment.create({
+  const newComment = await prisma.comment.create({
     data: {
       content: comment.content,
       userId: comment.userId,
       postId: comment.postId,
     },
   })
+  return newComment
 }
 
-export const updateComment = async (updatedComment: Comment) => {
-  await prisma.comment.update({
-    where: { id: updatedComment.id },
+export const updateComment = async (comment: Comment) => {
+  const updatedComment = await prisma.comment.update({
+    where: { id: comment.id },
     data: {
-      content: updatedComment.content,
-      userId: updatedComment.userId,
-      postId: updatedComment.postId,
+      content: comment.content,
+      userId: comment.userId,
+      postId: comment.postId,
     },
   })
+  return updatedComment
 }
 
 export const deleteComment = async (commentId: string) => {
-  await prisma.comment.delete({ where: { id: commentId } })
+  const deletedComment = await prisma.comment.delete({
+    where: { id: commentId },
+  })
+  return deletedComment
 }
