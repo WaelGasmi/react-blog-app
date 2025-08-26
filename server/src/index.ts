@@ -1,8 +1,13 @@
-import { PORT } from "./config/index.js"
+import { PORT } from "./configs/env.js"
 import { server } from "./socket.js"
 
-console.clear()
+const startServer = async () => {
+  try {
+    console.clear()
+    server.listen(PORT, () => console.log(`Server running at ${PORT}`))
+  } catch (error) {
+    console.log(error)
+  }
+}
 
-server.listen(PORT, () => {
-  console.log(`Server running at ${PORT}`)
-})
+startServer()

@@ -31,3 +31,20 @@ export type Comment = {
 export type LoginInput = Pick<User, "email" | "password">
 export type RegisterInput = Omit<User, "id">
 export type SafeUser = Omit<User, "password">
+export type AuthUser = {
+  user: SafeUser
+  token: string
+}
+
+export type CommentDTO = {
+  content: string
+  userId: string
+  postId: string
+}
+
+export type UserDTO = {
+  firstName: string
+  lastName: string
+  email: string
+  password: string
+}
