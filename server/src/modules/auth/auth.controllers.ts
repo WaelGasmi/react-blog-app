@@ -14,7 +14,7 @@ export const loginController = async (req: Request, res: Response) => {
 export const registerController = async (req: Request, res: Response) => {
   const { user, token } = await registerService(req.body)
   setAuthCookie(res, token)
-  successResponse<SafeUser>(res, user)
+  successResponse<AuthUser>(res, { user, token })
 }
 
 export const logoutController = async (_req: Request, res: Response) => {

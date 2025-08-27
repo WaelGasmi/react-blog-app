@@ -22,10 +22,14 @@ export type Comment = {
   id: string
   content: string
   userId: string
+  like: Number
+  dislike: Number
   postId: string
+  commentId?: string
 
   user?: User
   post?: Post
+  comment?: Comment
 }
 
 export type LoginInput = Pick<User, "email" | "password">
@@ -37,9 +41,12 @@ export type AuthUser = {
 }
 
 export type CommentDTO = {
-  content: string
   userId: string
-  postId: string
+  content?: string
+  commentId?: string
+  like?: Number
+  dislike?: Number
+  postId?: string
 }
 
 export type UserDTO = {

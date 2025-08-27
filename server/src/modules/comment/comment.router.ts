@@ -4,7 +4,7 @@ import { authGuard } from "../../middlewares/authGuard.js"
 import {
   addCommentController,
   deleteCommentController,
-  updateCommentController,
+  updateCommentContentController,
   getCommentsByPostController,
 } from "./comment.controllers.js"
 
@@ -17,7 +17,7 @@ CommentRouter.get(
 
 CommentRouter.use(authGuard)
 CommentRouter.post("/", asyncHandler(addCommentController))
-CommentRouter.put("/:id", asyncHandler(updateCommentController))
+CommentRouter.put("/:id", asyncHandler(updateCommentContentController))
 CommentRouter.delete("/:id", asyncHandler(deleteCommentController))
 
 export default CommentRouter

@@ -1,12 +1,15 @@
 import { prisma } from "../../configs/db.js"
+import { AppError } from "../../utils/AppError.js"
 import { Post } from "../../utils/types.js"
 
 export const getAllPostsService = async () => {
-  return await prisma.post.findMany({ include: { Comment: true } })
+  return await prisma.post.findMany()
 }
 
 export const getPostService = async (postId: string) => {
-  return await prisma.post.findUnique({ where: { id: postId } })
+  const newPost = await prisma.post.findUnique({ where: { id: postId } })
+  if (!newPost) throw new AppError("post not found", 400)
+  return newPost
 }
 
 export const getPostsByUserService = async (userId: string) => {
@@ -30,6 +33,20 @@ export const updatePostService = async (post: Post) => {
       userId: post.userId,
     },
   })
+}
+
+export const postReactService = async (type: string, postId: string) => {
+  if (type === "like")
+    return prisma.post.update({
+      where: { id: postId },
+      data: { like: { increment: 1 } },
+    })
+  else if (type === "dislike")
+    return prisma.post.update({
+      where: { id: postId },
+      data: { dislike: { increment: 1 } },
+    })
+  else throw new AppError("react type invalid", 400)
 }
 
 export const deletePostService = async (postId: string) => {

@@ -1,7 +1,7 @@
 import { Response } from "express"
 import { CookieOptions } from "express"
 
-export const COOKIE_OPTIONS: CookieOptions = {
+const COOKIE_OPTIONS: CookieOptions = {
   sameSite: "strict",
   maxAge: 1000 * 60 * 60 * 24,
   secure: true,

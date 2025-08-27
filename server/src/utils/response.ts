@@ -1,8 +1,8 @@
 import { Response } from "express"
 
-export const successResponse = <T>(
+export const successResponse = (
   res: Response,
-  data?: T,
+  data?: any,
   message: string = "Success",
   statusCode: number = 200
 ) => {

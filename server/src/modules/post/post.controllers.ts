@@ -16,7 +16,7 @@ export const getAllPostsController = async (_req: Request, res: Response) => {
 }
 
 export const getPostController = async (req: Request, res: Response) => {
-  const post = await getPostService(req.body)
+  const post = await getPostService(req.params.postId)
   return successResponse<Post>(res, post)
 }
 
@@ -27,8 +27,8 @@ export const getPostsByUserController = async (req: Request, res: Response) => {
 }
 
 export const addPostController = async (req: Request, res: Response) => {
-  const post = await addPostService(req.body)
-  return successResponse<Post>(res, post)
+  const newPost = await addPostService(req.body)
+  return successResponse<Post>(res, newPost)
 }
 
 export const updatePostController = async (req: Request, res: Response) => {

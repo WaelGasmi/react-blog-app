@@ -43,5 +43,5 @@ export const deleteUserService = async (userId: string) => {
 }
 
 export const getUserByEmailService = async (email: string) => {
-  return prisma.user.delete({ where: { email } })
+  return prisma.user.findUnique({ where: { email } })
 }
