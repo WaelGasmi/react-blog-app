@@ -1,6 +1,6 @@
-import { prisma } from "../../configs/db.js"
-import { AppError } from "../../utils/AppError.js"
-import { Comment, CommentDTO } from "../../utils/types.js"
+import { prisma } from "../../configs/prisma.js"
+import { ReactionType } from "../../generated/prisma/index.js"
+import { Comment } from "../../utils/types.js"
 
 export const getCommentsByPostService = async (postId: string) => {
   return await prisma.comment.findMany({ where: { postId } })
@@ -34,18 +34,50 @@ export const updateCommentContentService = async (
   })
 }
 
-export const commentReactService = async (type: string, commentId: string) => {
-  if (type === "like")
-    return prisma.comment.update({
-      where: { id: commentId },
-      data: { like: { increment: 1 } },
-    })
-  else if (type === "dislike")
-    return prisma.comment.update({
-      where: { id: commentId },
-      data: { dislike: { increment: 1 } },
-    })
-  else throw new AppError("react type invalid", 400)
+export const deleteCommentReactService = async (
+  commentId: string,
+  userId: string
+) => {
+  return await prisma.commentReaction.delete({
+    where: {
+      commentId_userId: {
+        userId,
+        commentId,
+      },
+    },
+  })
+}
+
+export const addCommentReactService = async (
+  type: ReactionType,
+  commentId: string,
+  userId: string
+) => {
+  return await prisma.commentReaction.create({
+    data: {
+      type,
+      userId,
+      commentId,
+    },
+  })
+}
+
+export const updateCommentReactService = async (
+  type: ReactionType,
+  commentId: string,
+  userId: string
+) => {
+  return await prisma.commentReaction.update({
+    where: {
+      commentId_userId: {
+        commentId,
+        userId,
+      },
+    },
+    data: {
+      type,
+    },
+  })
 }
 
 export const deleteCommentService = async (commentId: string) => {

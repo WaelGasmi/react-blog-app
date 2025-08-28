@@ -122,27 +122,49 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
+  avatar: 'avatar',
   firstName: 'firstName',
   lastName: 'lastName',
   email: 'email',
-  password: 'password'
+  passwordHash: 'passwordHash',
+  role: 'role',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.PostScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  like: 'like',
-  dislike: 'dislike',
-  userId: 'userId'
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.CommentScalarFieldEnum = {
   id: 'id',
   content: 'content',
-  like: 'like',
-  dislike: 'dislike',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   userId: 'userId',
   postId: 'postId',
+  commentId: 'commentId'
+};
+
+exports.Prisma.PostReactionScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId',
+  postId: 'postId'
+};
+
+exports.Prisma.CommentReactionScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId',
   commentId: 'commentId'
 };
 
@@ -160,12 +182,27 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.UserRole = exports.$Enums.UserRole = {
+  USER: 'USER',
+  MODERATOR: 'MODERATOR',
+  ADMIN: 'ADMIN'
+};
 
+exports.ReactionType = exports.$Enums.ReactionType = {
+  LIKE: 'LIKE',
+  DISLIKE: 'DISLIKE',
+  HAHA: 'HAHA',
+  LOVE: 'LOVE',
+  SAD: 'SAD',
+  ANGRY: 'ANGRY'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',
   Post: 'Post',
-  Comment: 'Comment'
+  Comment: 'Comment',
+  PostReaction: 'PostReaction',
+  CommentReaction: 'CommentReaction'
 };
 
 /**

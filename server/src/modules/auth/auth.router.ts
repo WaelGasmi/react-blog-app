@@ -14,6 +14,7 @@ AuthRouter.post("/login", asyncHandler(loginController))
 AuthRouter.post("/register", asyncHandler(registerController))
 
 AuthRouter.use(asyncHandler(authGuard))
+
 AuthRouter.post("/logout", asyncHandler(logoutController))
 AuthRouter.get("/me", asyncHandler(meController))
 

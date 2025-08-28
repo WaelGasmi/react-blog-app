@@ -1,4 +1,4 @@
-import { prisma } from "../../configs/db.js"
+import { prisma } from "../../configs/prisma.js"
 import { hashPassword } from "../../utils/bcryptjs.js"
 import { User, UserDTO } from "../../utils/types.js"
 
@@ -22,7 +22,7 @@ export const addUserService = async ({
       email,
       firstName,
       lastName,
-      password: hashedPassword,
+      passwordHash: hashedPassword,
     },
   })
 }

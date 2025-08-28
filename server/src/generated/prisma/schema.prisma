@@ -15,39 +15,99 @@ datasource db {
 }
 
 model User {
-  id        String @id @default(cuid())
-  firstName String
-  lastName  String
-  email     String @unique
-  password  String
+  id           String   @id @default(cuid())
+  avatar       String?
+  firstName    String
+  lastName     String
+  email        String   @unique
+  passwordHash String
+  role         UserRole @default(USER)
 
-  Post    Post[]
-  Comment Comment[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  posts           Post[]
+  comments        Comment[]
+  postReaction    PostReaction[]
+  commentReaction CommentReaction[]
 }
 
 model Post {
-  id      String @id @default(cuid())
-  title   String
-  like    Int    @default(0)
-  dislike Int    @default(0)
-  userId  String
+  id    String @id @default(cuid())
+  title String
 
-  user    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  Comment Comment[]
+  userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comments     Comment[]
+  postReaction PostReaction[]
 }
 
 model Comment {
-  id        String  @id @default(cuid())
-  content   String
-  like      Int     @default(0)
-  dislike   Int     @default(0)
+  id      String @id @default(cuid())
+  content String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   userId    String
   postId    String
   commentId String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  Post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
 
-  parent  Comment?  @relation("CommentReplies", fields: [commentId], references: [id])
-  replies Comment[] @relation("CommentReplies")
+  parent          Comment?          @relation("CommentReplies", fields: [commentId], references: [id], onDelete: Cascade)
+  replies         Comment[]         @relation("CommentReplies")
+  CommentReaction CommentReaction[]
+}
+
+model PostReaction {
+  id   String       @id @default(cuid())
+  type ReactionType
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String
+  postId String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId])
+}
+
+model CommentReaction {
+  id   String       @id @default(cuid())
+  type ReactionType
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId    String
+  commentId String
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comment Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@unique([commentId, userId])
+}
+
+enum ReactionType {
+  LIKE
+  DISLIKE
+  HAHA
+  LOVE
+  SAD
+  ANGRY
+}
+
+enum UserRole {
+  USER
+  MODERATOR
+  ADMIN
 }

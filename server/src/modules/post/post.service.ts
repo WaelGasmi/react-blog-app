@@ -1,6 +1,6 @@
-import { prisma } from "../../configs/db.js"
+import { prisma } from "../../configs/prisma.js"
+import { ReactionType, Post } from "../../generated/prisma/index.js"
 import { AppError } from "../../utils/AppError.js"
-import { Post } from "../../utils/types.js"
 
 export const getAllPostsService = async () => {
   return await prisma.post.findMany()
@@ -35,20 +35,52 @@ export const updatePostService = async (post: Post) => {
   })
 }
 
-export const postReactService = async (type: string, postId: string) => {
-  if (type === "like")
-    return prisma.post.update({
-      where: { id: postId },
-      data: { like: { increment: 1 } },
-    })
-  else if (type === "dislike")
-    return prisma.post.update({
-      where: { id: postId },
-      data: { dislike: { increment: 1 } },
-    })
-  else throw new AppError("react type invalid", 400)
+export const addPostReactService = async (
+  type: ReactionType,
+  postId: string,
+  userId: string
+) => {
+  return await prisma.postReaction.create({
+    data: {
+      type,
+      userId,
+      postId,
+    },
+  })
+}
+
+export const updatePostReactService = async (
+  type: ReactionType,
+  postId: string,
+  userId: string
+) => {
+  return await prisma.postReaction.update({
+    where: {
+      postId_userId: {
+        postId,
+        userId,
+      },
+    },
+    data: {
+      type,
+    },
+  })
 }
 
 export const deletePostService = async (postId: string) => {
   return await prisma.post.delete({ where: { id: postId } })
+}
+
+export const deletePostReactService = async (
+  postId: string,
+  userId: string
+) => {
+  return await prisma.postReaction.delete({
+    where: {
+      postId_userId: {
+        userId,
+        postId,
+      },
+    },
+  })
 }

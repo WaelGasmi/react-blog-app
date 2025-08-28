@@ -14,11 +14,11 @@ export const loginService = async ({ email, password }: LoginInput) => {
   const user = await getUserByEmailService(email)
   if (!user) throw new AppError("user not found", 401)
 
-  const isMatch = await comparePassword(user.password, password)
+  const isMatch = await comparePassword(user.passwordHash, password)
   if (!isMatch) throw new AppError("wrong credentials", 401)
 
   const token = await generateToken(user.id)
-  const { password: _, ...safeUser } = user
+  const { passwordHash: _, ...safeUser } = user
 
   return { user: safeUser, token }
 }
@@ -36,7 +36,7 @@ export const registerService = async ({
   if (existingUser) throw new AppError("user already found", 401)
 
   const user = await addUserService({ firstName, lastName, email, password })
-  const { password: _, ...safeUser } = user
+  const { passwordHash: _, ...safeUser } = user
   const token = await generateToken(user.id)
 
   return { user: safeUser, token }
@@ -45,7 +45,7 @@ export const registerService = async ({
 export const meService = async (id: string) => {
   const user = await getUserService(id)
   if (!user) throw new AppError("user not found", 401)
-  const { password: _, ...safeUser } = user
+  const { passwordHash: _, ...safeUser } = user
 
   return safeUser
 }

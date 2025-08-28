@@ -21,6 +21,7 @@ app
 app.use("/api/auth", routers.AuthRouter)
 app.use("/api/post", routers.PostRouter)
 app.use("/api/comment", routers.CommentRouter)
+app.use("/api/user", routers.UserRouter)
 
 app.use(errorHandler)
 
