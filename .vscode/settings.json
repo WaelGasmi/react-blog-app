@@ -11,5 +11,6 @@
     ".env",
     "tsconfig.json"
   ],
-  "cSpell.words": ["cuid", "HAHA", "Ls9IirzDilsKhPn"]
+  "cSpell.words": ["cuid", "HAHA", "Ls9IirzDilsKhPn"],
+  "git.ignoreLimitWarning": true
 }

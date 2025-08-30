@@ -3,11 +3,13 @@ import { ReactionType, Post } from "../../generated/prisma/index.js"
 import { AppError } from "../../utils/AppError.js"
 
 export const getAllPostsService = async () => {
-  return await prisma.post.findMany()
+  return await prisma.post.findMany({ include: { postReaction: true } })
 }
 
 export const getPostService = async (postId: string) => {
-  const newPost = await prisma.post.findUnique({ where: { id: postId } })
+  const newPost = await prisma.post.findUnique({
+    where: { id: postId },
+  })
   if (!newPost) throw new AppError("post not found", 400)
   return newPost
 }
